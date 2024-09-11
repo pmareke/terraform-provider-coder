@@ -63,6 +63,8 @@ func workspaceOwnerDataSource() *schema.Resource {
 			}
 			_ = rd.Set("login_type", os.Getenv("CODER_WORKSPACE_OWNER_LOGIN_TYPE"))
 
+			_ = rd.Set("timezone", os.Getenv("CODER_WORKSPACE_OWNER_TIMEZONE"))
+
 			return diags
 		},
 		Schema: map[string]*schema.Schema{
@@ -121,6 +123,11 @@ func workspaceOwnerDataSource() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 				Description: "The type of login the user has.",
+			},
+			"timezone": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The timezone the user has.",
 			},
 		},
 	}

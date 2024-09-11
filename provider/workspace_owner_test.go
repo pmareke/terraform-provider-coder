@@ -36,6 +36,7 @@ func TestWorkspaceOwnerDatasource(t *testing.T) {
 		t.Setenv("CODER_WORKSPACE_OWNER_SESSION_TOKEN", `supersecret`)
 		t.Setenv("CODER_WORKSPACE_OWNER_OIDC_ACCESS_TOKEN", `alsosupersecret`)
 		t.Setenv("CODER_WORKSPACE_OWNER_LOGIN_TYPE", `github`)
+		t.Setenv("CODER_WORKSPACE_OWNER_TIMEZONE", `EST`)
 
 		resource.Test(t, resource.TestCase{
 			Providers: map[string]*schema.Provider{
@@ -65,6 +66,7 @@ func TestWorkspaceOwnerDatasource(t *testing.T) {
 					assert.Equal(t, `supersecret`, attrs["session_token"])
 					assert.Equal(t, `alsosupersecret`, attrs["oidc_access_token"])
 					assert.Equal(t, `github`, attrs["login_type"])
+					assert.Equal(t, `EST`, attrs["timezone"])
 
 					return nil
 				},
@@ -84,6 +86,7 @@ func TestWorkspaceOwnerDatasource(t *testing.T) {
 			"CODER_WORKSPACE_OWNER_SSH_PUBLIC_KEY",
 			"CODER_WORKSPACE_OWNER_SSH_PRIVATE_KEY",
 			"CODER_WORKSPACE_OWNER_LOGIN_TYPE",
+			"CODER_WORKSPACE_OWNER_TIMEZONE",
 		} { // https://github.com/golang/go/issues/52817
 			t.Setenv(v, "")
 			os.Unsetenv(v)
@@ -116,6 +119,7 @@ func TestWorkspaceOwnerDatasource(t *testing.T) {
 					assert.Empty(t, attrs["session_token"])
 					assert.Empty(t, attrs["oidc_access_token"])
 					assert.Empty(t, attrs["login_type"])
+					assert.Empty(t, attrs["timezone"])
 					return nil
 				},
 			}},
